@@ -1,5 +1,6 @@
 namespace SpriteKind {
     export const drop_off = SpriteKind.create()
+    export const house = SpriteKind.create()
 }
 
 //  variables
@@ -10,19 +11,28 @@ let steer_amount = 0.05
 let deceleration = 0.9
 let steer_reduction = 0.5
 let has_parcel = false
+let minimap_open = false
+// 
 //  setup
 info.setScore(0)
 info.startCountdown(120)
+scene.setTileMapLevel(assets.tilemap`level`)
 //  sprites
 let car = sprites.create(assets.image`car`, SpriteKind.Player)
 transformSprites.rotateSprite(car, 90)
 scene.cameraFollowSprite(car)
+//  minimap # 
+let minimap_object = minimap.minimap(MinimapScale.Quarter)
+let minimap_image = minimap.getImage(minimap_object)
+let minimap_sprite = sprites.create(minimap_image)
+minimap_sprite.z = 10
+minimap_sprite.setFlag(SpriteFlag.RelativeToCamera, true)
+minimap_sprite.setFlag(SpriteFlag.Invisible, true)
 function setup_level() {
     let house: Sprite;
-    scene.setTileMapLevel(assets.tilemap`level`)
     tiles.placeOnTile(car, tiles.getTileLocation(2, 2))
     for (let tile of tiles.getTilesByType(assets.tile`house spawn`)) {
-        house = sprites.create(assets.image`house`)
+        house = sprites.create(assets.image`house`, SpriteKind.house)
         house.scale = 0.75
         tiles.placeOnTile(house, tile)
         house.y -= 12
@@ -32,9 +42,9 @@ function setup_level() {
 
 setup_level()
 function place_parcel(parcel: Sprite) {
-    let max_x = grid.numColumns() * 16 - 24
-    let max_y = grid.numRows() * 16 - 24
-    parcel.setPosition(randint(24, max_x), randint(24, max_y))
+    let col = randint(1, grid.numColumns() - 1)
+    let row = randint(1, grid.numRows() - 1)
+    tiles.placeOnTile(parcel, tiles.getTileLocation(col, row))
     if (tiles.tileAtLocationIsWall(parcel.tilemapLocation())) {
         place_parcel(parcel)
     }
@@ -68,9 +78,40 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.drop_off, function drop_off_parc
     spawn_parcel()
     drop_off.destroy()
 })
-scene.onHitWall(SpriteKind.Player, function hit_wall() {
+controller.A.onEvent(ControllerButtonEvent.Pressed, function toggle_map() {
+    // 
     
-    speed *= -0.1
+    if (minimap_open) {
+        minimap_sprite.setFlag(SpriteFlag.Invisible, true)
+        minimap_open = false
+    } else {
+        minimap_sprite.setFlag(SpriteFlag.Invisible, false)
+        minimap_open = true
+    }
+    
+})
+game.onUpdateInterval(100, function update_minimap() {
+    let minimap_object: minimap.Minimap;
+    let drop_off: Sprite;
+    let parcel: Sprite;
+    // 
+    if (minimap_open) {
+        minimap_object = minimap.minimap(MinimapScale.Quarter)
+        minimap.includeSprite(minimap_object, car)
+        for (let house of sprites.allOfKind(SpriteKind.house)) {
+            minimap.includeSprite(minimap_object, house)
+        }
+        if (has_parcel) {
+            drop_off = sprites.allOfKind(SpriteKind.drop_off)[0]
+            minimap.includeSprite(minimap_object, drop_off)
+        } else {
+            parcel = sprites.allOfKind(SpriteKind.Food)[0]
+            minimap.includeSprite(minimap_object, parcel)
+        }
+        
+        minimap_sprite.setImage(minimap.getImage(minimap_object))
+    }
+    
 })
 function accelerate() {
     

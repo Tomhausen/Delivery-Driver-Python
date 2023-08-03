@@ -9,26 +9,6 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "house"
     },
-    "image4": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAIiLu7g4AACDM4u7u/wAAwiy+4u7/DyBE5Lvi7v8PICLku+Lu/w8gIuTu7u7+ACAi5Lvy/+4AICLku+L+7gAgIuS74v7+ACAi4r7i7/8PIMy87vLu/w8Awswr7u7/DwAgRCQi7v4PAAAiItLi7gAAAC0i0u0OAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "car right"
-    },
-    "image5": {
-        "data": "hwQQABAAAAAAAC0i0u0OAAAAIiLS4u4AACBEJCLu/g8Awswr7u7/DyDMvO7y7v8PICLivuLv/w8gIuS74v7+ACAi5Lvi/u4AICLku/L/7gAgIuTu7u7+ACAi5Lvi7v8PIETku+Lu/w8Awiy+4u7/DwAgzOLu7v8AAAAiIu7uDgAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "car left"
-    },
-    "image6": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4P//7u7/DwAiIiIi4u7/4MwiwuzuLf4uQkQkzuveDi4iIkK86+4OLCIiQrzr7g4sIiIivOvuDi4iIiK86+4OLiIiIs7r3g7gzCzC7O4t/gAiIiIi4u7/AOD//+7u/w8AAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "car up"
-    },
-    "image7": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOD/7/4PAAAAIuIi7i4PAMLMzCxL3eIgQkQkskzSLSAkIiLLTCIiICQiIstMIiIgIiIiy0wiIiAiIiLLTCIiICIiIrJM0i0AwszMLEvd4gAAIuIi7i4PAADg/+/+/wAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "car down"
-    },
     "image3": {
         "data": "hwQQABAAAAD//////////+/d3d3x3d397+7u7v3u7v7v7u7u/e7u/u/u7u793u3+7+7u7v3e7f7v7u7u/d7t/u/u7u793u3+7+7u7v3u7v7v7u7u/e7u/u/u7u797u7+7+7u7v3u7v7v7u7u/e7u/u/u7u797u7+7+7u7v3u7v///////////w==",
         "mimeType": "image/x-mkcd-f4",
