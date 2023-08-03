@@ -11,19 +11,21 @@ steer_amount = 0.05
 deceleration = 0.9
 steer_reduction = 0.5
 has_parcel = False
-minimap_open = False #
+minimap_open = False
+seconds_since_damage = 0 # 
 
 # setup
 info.set_score(0)
 info.start_countdown(120)
 scene.set_tile_map_level(assets.tilemap("level"))
+info.set_life(5) #
 
 # sprites
 car = sprites.create(assets.image("car"), SpriteKind.player)
 transformSprites.rotate_sprite(car, 90)
 scene.camera_follow_sprite(car)
 
-# minimap # 
+# minimap 
 minimap_object = minimap.minimap(MinimapScale.Quarter)
 minimap_image = minimap.get_image(minimap_object)
 minimap_sprite = sprites.create(minimap_image)
@@ -75,7 +77,15 @@ def drop_off_parcel(car, drop_off):
     drop_off.destroy()
 sprites.on_overlap(SpriteKind.player, SpriteKind.drop_off, drop_off_parcel)
 
-def toggle_map(): #
+def hit_wall(): # 
+    global seconds_since_damage, speed
+    if Math.abs(speed) > 50:
+        seconds_since_damage = 0
+        info.change_life_by(-1)
+    speed = 0
+scene.on_hit_wall(SpriteKind.player, hit_wall)
+
+def toggle_map():
     global minimap_open
     if minimap_open:
         minimap_sprite.set_flag(SpriteFlag.INVISIBLE, True)
@@ -85,7 +95,7 @@ def toggle_map(): #
         minimap_open = True
 controller.B.on_event(ControllerButtonEvent.PRESSED, toggle_map)
 
-def update_minimap(): #
+def update_minimap():
     if minimap_open:
         minimap_object = minimap.minimap(MinimapScale.Quarter)
         minimap.include_sprite(minimap_object, car)
@@ -99,6 +109,16 @@ def update_minimap(): #
             minimap.include_sprite(minimap_object, parcel)
         minimap_sprite.set_image(minimap.get_image(minimap_object))
 game.on_update_interval(100, update_minimap)
+
+def counter_tick(): # 
+    global seconds_since_damage
+    if seconds_since_damage < 10:
+        seconds_since_damage += 1
+    else:
+        if info.life() < 5:
+            info.change_life_by(1)
+        seconds_since_damage = 0
+game.on_update_interval(1000, counter_tick)
 
 def accelerate():
     global speed

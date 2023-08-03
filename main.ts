@@ -12,16 +12,19 @@ let deceleration = 0.9
 let steer_reduction = 0.5
 let has_parcel = false
 let minimap_open = false
-// 
+let seconds_since_damage = 0
+//  
 //  setup
 info.setScore(0)
 info.startCountdown(120)
 scene.setTileMapLevel(assets.tilemap`level`)
+info.setLife(5)
+// 
 //  sprites
 let car = sprites.create(assets.image`car`, SpriteKind.Player)
 transformSprites.rotateSprite(car, 90)
 scene.cameraFollowSprite(car)
-//  minimap # 
+//  minimap 
 let minimap_object = minimap.minimap(MinimapScale.Quarter)
 let minimap_image = minimap.getImage(minimap_object)
 let minimap_sprite = sprites.create(minimap_image)
@@ -78,8 +81,17 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.drop_off, function drop_off_parc
     spawn_parcel()
     drop_off.destroy()
 })
+scene.onHitWall(SpriteKind.Player, function hit_wall() {
+    //  
+    
+    if (Math.abs(speed) > 50) {
+        seconds_since_damage = 0
+        info.changeLifeBy(-1)
+    }
+    
+    speed = 0
+})
 controller.B.onEvent(ControllerButtonEvent.Pressed, function toggle_map() {
-    // 
     
     if (minimap_open) {
         minimap_sprite.setFlag(SpriteFlag.Invisible, true)
@@ -94,7 +106,6 @@ game.onUpdateInterval(100, function update_minimap() {
     let minimap_object: minimap.Minimap;
     let drop_off: Sprite;
     let parcel: Sprite;
-    // 
     if (minimap_open) {
         minimap_object = minimap.minimap(MinimapScale.Quarter)
         minimap.includeSprite(minimap_object, car)
@@ -110,6 +121,20 @@ game.onUpdateInterval(100, function update_minimap() {
         }
         
         minimap_sprite.setImage(minimap.getImage(minimap_object))
+    }
+    
+})
+game.onUpdateInterval(1000, function counter_tick() {
+    //  
+    
+    if (seconds_since_damage < 10) {
+        seconds_since_damage += 1
+    } else {
+        if (info.life() < 5) {
+            info.changeLifeBy(1)
+        }
+        
+        seconds_since_damage = 0
     }
     
 })
