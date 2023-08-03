@@ -78,7 +78,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.drop_off, function drop_off_parc
     spawn_parcel()
     drop_off.destroy()
 })
-controller.A.onEvent(ControllerButtonEvent.Pressed, function toggle_map() {
+controller.B.onEvent(ControllerButtonEvent.Pressed, function toggle_map() {
     // 
     
     if (minimap_open) {

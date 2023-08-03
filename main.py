@@ -83,7 +83,7 @@ def toggle_map(): #
     else:
         minimap_sprite.set_flag(SpriteFlag.INVISIBLE, False)
         minimap_open = True
-controller.A.on_event(ControllerButtonEvent.PRESSED, toggle_map)
+controller.B.on_event(ControllerButtonEvent.PRESSED, toggle_map)
 
 def update_minimap(): #
     if minimap_open:
