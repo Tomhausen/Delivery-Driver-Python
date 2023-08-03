@@ -13,7 +13,7 @@ has_parcel = False
 
 # setup
 info.set_score(0)
-info.start_countdown(90)
+info.start_countdown(120)
 
 # sprites
 car = sprites.create(assets.image("car"), SpriteKind.player)

@@ -12,7 +12,7 @@ let steer_reduction = 0.5
 let has_parcel = false
 //  setup
 info.setScore(0)
-info.startCountdown(90)
+info.startCountdown(120)
 //  sprites
 let car = sprites.create(assets.image`car`, SpriteKind.Player)
 transformSprites.rotateSprite(car, 90)
